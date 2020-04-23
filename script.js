@@ -12,7 +12,7 @@ let remainingPomodoroMilliseconds = pomodoroLengthMins*60*1000;
 
 const audioTicObj = new Audio('./tic.mp3');
 audioTicObj.load();
-const audioRewardObj = new Audio('/reward.mp3');
+const audioRewardObj = new Audio('./reward.mp3');
 audioRewardObj.load();
 let intervalId; // used to start and stop timer
 const button = document.querySelector(".button");
