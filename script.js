@@ -10,6 +10,7 @@ const rewardProbability = 15;
 // used to count down pomodoro length in milliseconds
 let remainingPomodoroMilliseconds = pomodoroLengthMins*60*1000; 
 
+let notificationsAreGranted = false;
 const audioTicObj = new Audio('./tic.mp3');
 audioTicObj.load();
 const audioRewardObj = new Audio('./reward.mp3');
@@ -32,8 +33,6 @@ button.addEventListener('click', (e) => {
         startWork();
     } 
 } );
-
-notifyMe();
 
 startWork = () => {
     //used to calculate time passed between two setintervals
@@ -59,9 +58,10 @@ startWork = () => {
         //skinner box - if an additional minute has passed then roll dice to offer reward
         let timePassed = new Date() - startSkinnerTime;
         if( timePassed > 60*1000 ) {
-            console.log(remainingPomodoroMilliseconds/1000/60);
+            // console.log(remainingPomodoroMilliseconds/1000/60);
             let randomNumber = Math.random()*100;
             if(randomNumber < rewardProbability) {
+                let notification = notificationsAreGranted ? new Notification("Good news: take a mini-snack :)") : false;
                 audioTicObj.play();
             }
             startSkinnerTime = new Date();   
@@ -79,6 +79,7 @@ enterPause = () => {
 
 showReward = () => {
     clearInterval(intervalId);
+    let notification = notificationsAreGranted ? new Notification("Bravo, you finished another Pomodoro. Get your token now!") : false;
     audioRewardObj.play();
     loader.style.opacity = 0;
     button.innerText = "New Pomodoro";
@@ -86,30 +87,21 @@ showReward = () => {
     document.body.style.backgroundImage = "url('https://www.nomtrips.com/wp-content/uploads/2019/09/Japan-Aug-2019-Sushi-Jiro-e1567976856220.jpg')";
 }
 
-enterPause();
-
-function notifyMe() {
+addNotifications = () => {
     // Let's check if the browser supports notifications
     if (!("Notification" in window)) {
       alert("This browser does not support desktop notification");
     }
-  
     // Let's check whether notification permissions have already been granted
     else if (Notification.permission === "granted") {
-      // If it's okay let's create a notification
-      var notification = new Notification("Hi there!");
-    }
-  
+        notificationsAreGranted = true;
+    } 
     // Otherwise, we need to ask the user for permission
     else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then(function (permission) {
-        // If the user accepts, let's create a notification
-        if (permission === "granted") {
-          var notification = new Notification("Hi there!");
-        }
-      });
-    }
-  
-    // At last, if the user has denied notifications, and you 
-    // want to be respectful there is no need to bother them any more.
-  }
+      Notification.requestPermission();
+    };
+}
+
+enterPause();
+
+addNotifications();
