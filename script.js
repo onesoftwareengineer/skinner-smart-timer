@@ -4,7 +4,7 @@
     // every time you pause the timer, it adds 3 minutes of work time as a punishment
 
 // duration of one pomodoro
-const pomodoroLengthMins = 50;  
+let pomodoroLengthMins = 25;  
 // % percent probability for each minute that a reward is handed
 const rewardProbability = 15; 
 // used to count down pomodoro length in milliseconds
