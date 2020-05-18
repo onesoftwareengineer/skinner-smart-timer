@@ -84,16 +84,25 @@ enterPause = () => {
 showReward = () => {
     pomodoroDoneToday++;
     clearInterval(intervalId);
-    let notification = notificationsAreGranted ? new Notification("Bravo, you finished another Pomodoro. Get your token now!") : false;
     audioRewardObj.play();
     loader.style.opacity = 0;
     button.innerText = "New Pomodoro";
+
+    //if the user finished 4 pomodoro's till noon all the stars for these are going to get doubled 
+    if(pomodoroDoneToday === 4 && (new Date()).getHours() < 12) {
+        let notification = notificationsAreGranted ? new Notification("Amazing, you did 4 Pomodoro's till 12. Your stars get doubled!") : false;
+        pomodoroDoneToday *= 2; 
+    } else {
+        let notification = notificationsAreGranted ? new Notification("Bravo, you finished another Pomodoro. You get another star!") : false;
+    }
+
     //create reward token economy stampels
     let starsHtml = '';
     let rewardMessage = `<p>Bravo, you earned ${pomodoroDoneToday} ${pomodoroDoneToday > 1 ? 'tokens' : 'token'} today. Continue to work relentlessly every day and hour and you will make it to the top too.</p>`;
     for(let x=0; x<pomodoroDoneToday; x++) {
         starsHtml += `<img src=${smileyStampUrl} class="reward-stars">`;
     }
+    
     instructions.innerHTML = starsHtml + rewardMessage;
     //instructions.innerText = "Bravo, get your reward now. Continue to work relentlessly every day and hour and you will make it to the top too.";
     document.body.style.backgroundImage = "url('https://www.nomtrips.com/wp-content/uploads/2019/09/Japan-Aug-2019-Sushi-Jiro-e1567976856220.jpg')";
