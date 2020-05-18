@@ -9,6 +9,10 @@ let pomodoroLengthMins = 25;
 const rewardProbability = 15; 
 // used to count down pomodoro length in milliseconds
 let remainingPomodoroMilliseconds = pomodoroLengthMins*60*1000; 
+// number of pomodoro's done today
+let pomodoroDoneToday = 0;
+//smiley stamp used for reward token economy
+const smileyStampUrl = 'https://www.stampboards.com/images/mamaduke16/GoldStar.png';
 
 let notificationsAreGranted = false;
 const audioTicObj = new Audio('./tic.mp3');
@@ -78,15 +82,24 @@ enterPause = () => {
 }
 
 showReward = () => {
+    pomodoroDoneToday++;
     clearInterval(intervalId);
     let notification = notificationsAreGranted ? new Notification("Bravo, you finished another Pomodoro. Get your token now!") : false;
     audioRewardObj.play();
     loader.style.opacity = 0;
     button.innerText = "New Pomodoro";
-    instructions.innerText = "Bravo, get your reward now. Continue to work relentlessly every day and hour and you will make it to the top too.";
+    //create reward token economy stampels
+    let starsHtml = '';
+    let rewardMessage = `<p>Bravo, you earned ${pomodoroDoneToday} ${pomodoroDoneToday > 1 ? 'tokens' : 'token'} today. Continue to work relentlessly every day and hour and you will make it to the top too.</p>`;
+    for(let x=0; x<pomodoroDoneToday; x++) {
+        starsHtml += `<img src=${smileyStampUrl} class="reward-stars">`;
+    }
+    instructions.innerHTML = starsHtml + rewardMessage;
+    //instructions.innerText = "Bravo, get your reward now. Continue to work relentlessly every day and hour and you will make it to the top too.";
     document.body.style.backgroundImage = "url('https://www.nomtrips.com/wp-content/uploads/2019/09/Japan-Aug-2019-Sushi-Jiro-e1567976856220.jpg')";
 }
 
+//function that requests permission to display notifications
 addNotifications = () => {
     // Let's check if the browser supports notifications
     if (!("Notification" in window)) {

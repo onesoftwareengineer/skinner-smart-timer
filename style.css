@@ -5,7 +5,12 @@ body {
     font-family: 'Work Sans', sans-serif;
 }
 
-/* Loader styling */
+.reward-stars {
+  width: 5%;
+  display: inline-block;
+  margin: 0px 10px 0px 10px;
+}
+
 .container {
     color: white;
     text-align: center;
@@ -34,6 +39,7 @@ sub {
     line-height: 5.8vh;
 }
 
+/* Loader styling */
 .loader {
     opacity: 0;
     color: #ffffff;
