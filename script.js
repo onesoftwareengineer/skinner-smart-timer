@@ -52,7 +52,7 @@ document.addEventListener('click', (e) => {
 
 setupPomodoro = () => {
     loader.style.opacity = 0;
-    instructions.innerHTML = `If you want to make a mark in the world, you have to have talent. The rest depends on how hard you work.`;
+    instructions.innerHTML = `To succeed, fall in love with one project, immerse yourself in your work and dedicate your life to mastering it.`;
     document.body.style.backgroundImage = "url('https://cityfoodsters.com/wp-content/uploads/2014/01/03-Outside-Sukiyabashi-Jiro.jpg')";    
     button.innerText = "New Pomodoro";
 }
@@ -66,8 +66,8 @@ startWork = () => {
     tenthOfMillisecondsPassed = 0;
     loader.style.opacity = 1;
     button.innerText = "Pause Work";
-    instructions.innerHTML = 'To succeed, fall in love with one project, immerse yourself in your work and dedicate your life to mastering it.';
-    document.body.style.backgroundImage = "url('https://i.ytimg.com/vi/t4ITEdn8ERg/maxresdefault.jpg')";    
+    instructions.innerHTML = 'Jiro worked relentlessly every day except national holidays and over time his consistency and hard work has paid off.';
+    document.body.style.backgroundImage = "url('https://static01.nyt.com/images/2016/08/29/watching/jiro-dreams-of-sushi-watching-recommendation/jiro-dreams-of-sushi-watching-recommendation-videoSixteenByNineJumbo1600.jpg')";    
     intervalId = setInterval( () => {
         //if time is over show reward
         if(remainingPomodoroMilliseconds < 0) {
@@ -97,7 +97,7 @@ enterPause = () => {
     clearInterval(intervalId);
     loader.style.opacity = 0;
     button.innerText = "Start Work";
-    instructions.innerText = "Jiro worked relentlessly every day except national holidays and over time his consistency and hard work has paid off.";
+    instructions.innerText = "To succeed, fall in love with one project, immerse yourself in your work and dedicate your life to mastering it.";
     document.body.style.backgroundImage = "url('https://cityfoodsters.com/wp-content/uploads/2014/01/03-Outside-Sukiyabashi-Jiro.jpg')";    
 }
 
@@ -119,14 +119,14 @@ showReward = () => {
 
     //create reward token economy stampels
     let starsHtml = '';
-    let rewardMessage = `<p>Bravo, you earned ${pomodoroDoneToday} ${pomodoroDoneToday > 1 ? 'tokens' : 'token'} today. Continue to work relentlessly every day and hour and you will make it to the top too.</p>`;
+    let rewardMessage = `<p>Bravo, you earned ${pomodoroDoneToday} ${pomodoroDoneToday > 1 ? 'stars' : 'star'} today. Continue to work relentlessly every day and waking hour and you will get to the top.</p>`;
     for(let x=0; x<pomodoroDoneToday; x++) {
         starsHtml += `<img src=${smileyStampUrl} class="reward-stars">`;
     }
     
     instructions.innerHTML = starsHtml + rewardMessage;
     //instructions.innerText = "Bravo, get your reward now. Continue to work relentlessly every day and hour and you will make it to the top too.";
-    document.body.style.backgroundImage = "url('https://www.nomtrips.com/wp-content/uploads/2019/09/Japan-Aug-2019-Sushi-Jiro-e1567976856220.jpg')";
+    document.body.style.backgroundImage = "url('https://www.wbpstars.com/uploads/6/6/7/8/6678890/9392705_orig.jpg')";
 }
 
 //function that requests permission to display notifications
