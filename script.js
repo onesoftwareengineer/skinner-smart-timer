@@ -1,12 +1,7 @@
-// ideas for furhter improvement
-    // add notifications
-    // toggle between notifications and sound alerts
-    // every time you pause the timer, it adds 3 minutes of work time as a punishment
-
 // duration of one pomodoro
-let pomodoroLengthMins = 25;  
+let pomodoroLengthMins = 50;  
 // % percent probability for each minute that a reward is handed
-const rewardProbability = 15; 
+let rewardProbability = 0; 
 // used to count down pomodoro length in milliseconds
 let remainingPomodoroMilliseconds = pomodoroLengthMins*60*1000; 
 // number of pomodoro's done today
@@ -23,8 +18,9 @@ let intervalId; // used to start and stop timer
 const button = document.querySelector(".button");
 const loader = document.querySelector(".loader");
 const instructions = document.querySelector(".instructions");
+const setupdiv = document.querySelector("#setup");
 
-button.addEventListener('click', (e) => {
+document.addEventListener('click', (e) => {
     if(e.target.innerText === "Start Work") {
         startWork();
     }
@@ -35,10 +31,34 @@ button.addEventListener('click', (e) => {
         //reset time to initial pomodoro length but in milliseonds
         remainingPomodoroMilliseconds = pomodoroLengthMins*60*1000;
         startWork();
-    } 
+    }
+    else if(e.target.id === 'mini-pomodoro') {
+        if(e.target.checked) {
+            //if user checks mini pomodoro pomodoro length in mins will be reduced from 50 to 25
+            pomodoroLengthMins = 25;
+        } else {
+            pomodoroLengthMins = 50;
+        }
+    }
+    else if(e.target.id === 'mini-snacks') {
+        if(e.target.checked) {
+            //if mini snacks is checked then a 15% probability will be set for the user to receive a mini snack notification
+            rewardProbability = 15;
+        } else {
+            rewardProbability = 0;
+        }
+    }
 } );
 
+setupPomodoro = () => {
+    loader.style.opacity = 0;
+    instructions.innerHTML = `If you want to make a mark in the world, you have to have talent. The rest depends on how hard you work.`;
+    document.body.style.backgroundImage = "url('https://cityfoodsters.com/wp-content/uploads/2014/01/03-Outside-Sukiyabashi-Jiro.jpg')";    
+    button.innerText = "New Pomodoro";
+}
+
 startWork = () => {
+    setupdiv.style.display = "none";
     //used to calculate time passed between two setintervals
     startWorkTime = new Date();
     //used to calculate if a minute has passed for skinner box to be run
@@ -46,8 +66,8 @@ startWork = () => {
     tenthOfMillisecondsPassed = 0;
     loader.style.opacity = 1;
     button.innerText = "Pause Work";
-    instructions.innerText = "To succeed, fall in love with one project, immerse yourself in your work and dedicate your life to mastering it. -Jiro Ono";
-    document.body.style.backgroundImage = "url('https://www.straitstimes.com/sites/default/files/articles/2019/11/27/nmjiromovie2711.jpg')";    
+    instructions.innerHTML = 'To succeed, fall in love with one project, immerse yourself in your work and dedicate your life to mastering it.';
+    document.body.style.backgroundImage = "url('https://i.ytimg.com/vi/t4ITEdn8ERg/maxresdefault.jpg')";    
     intervalId = setInterval( () => {
         //if time is over show reward
         if(remainingPomodoroMilliseconds < 0) {
@@ -78,10 +98,11 @@ enterPause = () => {
     loader.style.opacity = 0;
     button.innerText = "Start Work";
     instructions.innerText = "Jiro worked relentlessly every day except national holidays and over time his consistency and hard work has paid off.";
-    document.body.style.backgroundImage = "url('https://www.wbpstars.com/uploads/6/6/7/8/6678890/6305560_orig.jpg')";    
+    document.body.style.backgroundImage = "url('https://cityfoodsters.com/wp-content/uploads/2014/01/03-Outside-Sukiyabashi-Jiro.jpg')";    
 }
 
 showReward = () => {
+    setupdiv.style.display = "none";
     pomodoroDoneToday++;
     clearInterval(intervalId);
     audioRewardObj.play();
@@ -123,7 +144,5 @@ addNotifications = () => {
       Notification.requestPermission();
     };
 }
-
-enterPause();
 
 addNotifications();

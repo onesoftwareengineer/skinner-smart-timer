@@ -7,10 +7,16 @@
     <title>Skinner Smart Timer</title>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
 </head>
-<body>
+<body onload="setupPomodoro()">
         <div class="container">
             <div class="loader"></div>
             <p class="instructions"></p>
+            <div id="setup">
+                <input type="checkbox" id="mini-pomodoro">
+                <label for="mini-pomodoro">Mini-Pomodoro</label>
+                <input type="checkbox" id="mini-snacks">
+                <label for="mini-snacks">Mini-Snacks</label>
+            </div>
             <p class="button"></p>
         </div>
     <script src="script.js"></script>
